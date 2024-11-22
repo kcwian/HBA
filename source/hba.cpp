@@ -506,13 +506,20 @@ int main(int argc, char** argv)
   nh.getParam("thread_num", thread_num);
 
   HBA hba(total_layer_num, data_path, thread_num);
+  std::cout << "1A" << std::endl;
   for(int i = 0; i < total_layer_num-1; i++)
   {
     std::cout<<"---------------------"<<std::endl;
     distribute_thread(hba.layers[i], hba.layers[i+1]);
+    std::cout << "1AA" << std::endl;
     hba.update_next_layer_state(i);
   }
+  std::cout << "1B" << std::endl;
   global_ba(hba.layers[total_layer_num-1]);
+  std::cout << "1C" << std::endl;
+
   hba.pose_graph_optimization();
+  std::cout << "1D" << std::endl;
+
   printf("iteration complete\n");
 }

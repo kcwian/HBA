@@ -56,8 +56,13 @@ namespace mypcl
     std::fstream file;
     file.open(filename);
     double tx, ty, tz, w, x, y, z;
+    int cnt =0;
     while(file >> tx >> ty >> tz >> w >> x >> y >> z)
     {
+      if (file.eof())
+	break;
+      cnt++;
+  //    std::cout << "Reading pose no.: " << cnt << std::endl;
       Eigen::Quaterniond q(w, x, y, z);
       Eigen::Vector3d t(tx, ty, tz);
       pose_vec.push_back(pose(qe * q, qe * t + te));
@@ -144,6 +149,7 @@ namespace mypcl
     Eigen::Quaterniond q0(pose_vec[0].q.w(), pose_vec[0].q.x(), pose_vec[0].q.y(), pose_vec[0].q.z());
     Eigen::Vector3d t0(pose_vec[0].t(0), pose_vec[0].t(1), pose_vec[0].t(2));
     file.open(path + "pose.json", std::ofstream::app);
+    std::cout << "Poses to save: " << pose_vec.size() << std::endl;
 
     for(size_t i = 0; i < pose_vec.size(); i++)
     {
@@ -157,7 +163,7 @@ namespace mypcl
            << pose_vec[i].t(2) << " "
            << pose_vec[i].q.w() << " " << pose_vec[i].q.x() << " "
            << pose_vec[i].q.y() << " " << pose_vec[i].q.z();
-      if(i < pose_vec.size()-1) file << "\n";
+      if(i < pose_vec.size()) file << "\n";
     }
     file.close();
   }
