@@ -99,7 +99,7 @@ int main(int argc, char** argv)
 
   }
 
-    pcl::io::savePCDFile(file_path + "hba_map_before_voxel.pcd", *pc_full);
+//    pcl::io::savePCDFile(file_path + "hba_map_before_voxel.pcd", *pc_full);
     downsample_voxel(*pc_full, downsample_size);
     pcl::io::savePCDFile(file_path + "hba_map_after_voxel.pcd", *pc_full);
 
